@@ -4,14 +4,16 @@
 
 请自觉遵守法律法规，本脚本仅供学习参考，所有下载的PDF请在24小时内删除，请勿传播，一切法律责任由用户自己承担，与本人无关
 
-3.47824973d763f5ca60a4.1583439609949.js
++ 3.47824973d763f5ca60a4.1583439609949.js
+
 原始js，地址<https://cdn.keledge.com/web/static/js/3.47824973d763f5ca60a4.1583439609949.js>
 
-nice.js
-<http://www.jsnice.org/>
-无法直接使用，可以用来与nice2.js对比分析逻辑。
++ nice.js
 
-nice2.js
+使用<http://www.jsnice.org/>对原始js解密得到，无法直接使用，可以用来与nice2.js对比分析逻辑。
+
++ nice2.js
+
 实际overwirte使用的js。
 
 ## 1.获取Pdf信息（加密）
