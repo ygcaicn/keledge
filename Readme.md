@@ -1,6 +1,6 @@
 # Keledge Pdf下载
 
-3.478xxx.js
+3.47824973d763f5ca60a4.1583439609949.js
 原始js，地址<https://cdn.keledge.com/web/static/js/3.47824973d763f5ca60a4.1583439609949.js>
 
 nice.js
@@ -9,6 +9,42 @@ nice.js
 
 nice2.js
 实际overwirte使用的js。
+
+## 获取Pdf信息（加密）
+
+<https://gateway.keledge.com/transfer/aqr/authorize>
+
+在nice.js中：
+```js
+"success": function(data) {
+    if (data["Success"]) {
+        if (data["Data"]["RequireAccessToken"] && !result["$cookies"]["get"]("access_token")) {
+            return result["setLogin"]("login", result[a26_0x4551("0x3b")]);
+        }
+        result["impoweRes"] = data["Data"]["SplitFiles"];
+        result["tempRes"] = result["impoweRes"];
+        result["AllowReadPercentage"] = data["Data"]["AuthorizeStrategy"]["AllowReadPercentage"];
+        result["authorKey"] = result[a26_0x4551("0x58")](data["Data"]["Key"]);
+        result["numberOfPages"] = data["Data"]["NumberOfPages"];
+        self["resolve"](data);
+    } else {
+        if (34 == data["Code"]) {
+            result["$router"]["replace"]({
+                "path": "/login",
+                "query": {
+                    "redirect": result["$route"]["fullPath"]
+                }
+            });
+        } else {
+            result["closeView"](data["Description"]);
+        }
+    }
+}
+```
+
+在nice2.js中添加Hook output_authorize：
+
+![output_authorize](img/2020-03-09_06-00.png)
 
 ## 密钥与解密
 
@@ -26,7 +62,7 @@ case 7:
 case 0x7:return _0x322189=_0x2d73dd['\x73\x65\x6e\x74'],_0x3ae007=CryptoJS['\x65\x6e\x63']['\x55\x74\x66\x38']['\x70\x61\x72\x73\x65'](this['\x76']['\x61\x75\x74\x68\x6f\x72\x4b\x65\x79']),_0x10fe46=CryptoJS['\x41\x45\x53']['\x64\x65\x63\x72\x79\x70\x74'](_0x322189,_0x3ae007,{'\x6d\x6f\x64\x65':CryptoJS['\x6d\x6f\x64\x65']['\x45\x43\x42'],'\x70\x61\x64\x64\x69\x6e\x67':CryptoJS['\x70\x61\x64']['\x50\x6b\x63\x73\x37']}),_0x2d73dd['\x6e\x65\x78\x74']=0xc,this['\x77\x6f\x72\x64\x41\x72\x72\x61\x79\x54\x6f\x55\x38'](_0x10fe46,_0xe8aca2,_0x1a2353);
 ```
 
-插入Hook之后：
+在nice2.js中添加Hook output_password之后：
 
 ```js
 case 0x7:var ast=CryptoJS['\x65\x6e\x63']['\x55\x74\x66\x38']['\x70\x61\x72\x73\x65'](this['\x76']['\x61\x75\x74\x68\x6f\x72\x4b\x65\x79']);output_password(ast);return _0x322189=_0x2d73dd['\x73\x65\x6e\x74'],_0x3ae007=CryptoJS['\x65\x6e\x63']['\x55\x74\x66\x38']['\x70\x61\x72\x73\x65'](this['\x76']['\x61\x75\x74\x68\x6f\x72\x4b\x65\x79']),_0x10fe46=CryptoJS['\x41\x45\x53']['\x64\x65\x63\x72\x79\x70\x74'](_0x322189,_0x3ae007,{'\x6d\x6f\x64\x65':CryptoJS['\x6d\x6f\x64\x65']['\x45\x43\x42'],'\x70\x61\x64\x64\x69\x6e\x67':CryptoJS['\x70\x61\x64']['\x50\x6b\x63\x73\x37']}),_0x2d73dd['\x6e\x65\x78\x74']=0xc,this['\x77\x6f\x72\x64\x41\x72\x72\x61\x79\x54\x6f\x55\x38'](_0x10fe46,_0xe8aca2,_0x1a2353);
@@ -48,3 +84,9 @@ Destination: <https://raw.githack.com/ygcaicn/keledge/master/nice2.js>
 ```sh
 ./main.py -a ~/Downloads/1583695806_authorize.txt
 ```
+
+## Merge
+
+![pdfsam](img/2020-03-09_06-12.png)
+
+<https://pdfsam.org/>
