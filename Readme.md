@@ -1,5 +1,9 @@
 # Keledge Pdf下载
 
+## 免责声明
+
+请自觉遵守法律法规，本脚本仅供学习参考，所有下载的PDF请在24小时内删除，请勿传播，一切法律责任由用户自己承担，与本人无关
+
 3.47824973d763f5ca60a4.1583439609949.js
 原始js，地址<https://cdn.keledge.com/web/static/js/3.47824973d763f5ca60a4.1583439609949.js>
 
@@ -15,6 +19,7 @@ nice2.js
 <https://gateway.keledge.com/transfer/aqr/authorize>
 
 在nice.js中：
+
 ```js
 "success": function(data) {
     if (data["Success"]) {
