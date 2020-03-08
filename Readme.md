@@ -14,7 +14,9 @@ nice.js
 nice2.js
 实际overwirte使用的js。
 
-## 获取Pdf信息（加密）
+## 1.获取Pdf信息（加密）
+
+使用直接从3开始即可！
 
 <https://gateway.keledge.com/transfer/aqr/authorize>
 
@@ -51,7 +53,7 @@ nice2.js
 
 ![output_authorize](img/2020-03-09_06-00.png)
 
-## 密钥与解密
+## 2.密钥与解密
 
 ```js
 case 7:
@@ -75,7 +77,7 @@ case 0x7:var ast=CryptoJS['\x65\x6e\x63']['\x55\x74\x66\x38']['\x70\x61\x72\x73\
 
 openssl enc -d -aes-128-ecb -K 406c322141214d6e4e446e505450386c -in enc.pdf -out dec.pdf
 
-## Overwrite js
+## 3.Overwrite js
 
 [Gooreplacer](https://chrome.google.com/webstore/detail/gooreplacer/jnlkjeecojckkigmchmfoigphmgkgbip)
 
@@ -84,13 +86,13 @@ openssl enc -d -aes-128-ecb -K 406c322141214d6e4e446e505450386c -in enc.pdf -out
 Source: <https://cdn.keledge.com/web/static/js/3.47824973d763f5ca60a4.1583439609949.js>
 Destination: <https://raw.githack.com/ygcaicn/keledge/master/nice2.js>
 
-## Download
+## 4.Download
 
 ```sh
 ./main.py -a ~/Downloads/1583695806_authorize.txt
 ```
 
-## Merge
+## 5.Merge
 
 ![pdfsam](img/2020-03-09_06-12.png)
 
