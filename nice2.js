@@ -1,3 +1,25 @@
+// Load 3rd js
+function loadStyle(url){
+    var link = document.createElement('link');
+    link.type = 'text/css';
+    link.rel = 'stylesheet';
+    link.href = url;
+    var head = document.getElementsByTagName('head')[0];
+    head.appendChild(link);
+}
+function loadJs(url){
+    var script = document.createElement("script")
+    var script = document.createElement("script")
+    script.type = "text/javascript"
+    script.src = url;
+    var head = document.getElementsByTagName('head')[0];
+    head.appendChild(script);
+}
+
+loadStyle("https://www.jq22.com/jquery/bootstrap-4.2.1.css")
+loadStyle("https://www.jq22.com/demo/bootstrap4pop201912082352/css/bs4.pop.css")
+loadJs("https://www.jq22.com/jquery/bootstrap-4.2.1.js")
+loadJs("https://www.jq22.com/demo/bootstrap4pop201912082352/js/bs4.pop.js")
 
 var prefix=null;
 var confirm_download=null;
