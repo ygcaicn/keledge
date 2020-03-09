@@ -68,9 +68,9 @@ function exportRaw(name, data) {
     
 // 浏览器内直接下载
 var download = function(i, byte){
-    if(confirm_download==null){
-        confirm_download = window.confirm("是否需要下载？");
-    }
+    // if(confirm_download==null){
+    //     confirm_download = window.confirm("是否需要下载？");
+    // }
     // if(confirm_download){
     //     if(prefix==null){
     //         prefix = window.prompt("请输入保存文件前缀：");
