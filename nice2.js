@@ -44,7 +44,7 @@ var download = function(i, byte){
 
 
 // 输出 https://gateway.keledge.com/transfer/aqr/authorize
-var output_prefix = null;
+var output_prefix = document.title;
 var output_authorize = function(result){
     if(output_prefix==null)
         output_prefix = `${Math.floor((new Date()).getTime() / 1000)}`;

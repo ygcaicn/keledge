@@ -42,10 +42,10 @@ def decSplitFiles(enc_dir, dec_dir):
             else:
                 if ret == None:
                     ok+=1
-                    logging.info("alerady decrypt.")
+                    logging.info("page {} alerady decrypt.".format(obj['NumberOfPage']))
                 elif ret.returncode == 0:
                     ok+=1
-                    logging.info("decrypt ok. {}".format(ret.stdout.decode()))
+                    logging.info("page {} decrypt ok. {}".format(obj['NumberOfPage'], ret.stdout.decode()))
                 else:
                     logging.error(ret.stderr.decode())
     print("总共：{}页\n成功：{}页".format(result['Data']['NumberOfPages'],ok))
