@@ -15,14 +15,34 @@ function loadJs(url){
     var head = document.getElementsByTagName('head')[0];
     head.appendChild(script);
 }
-
-loadStyle("https://www.jq22.com/jquery/bootstrap-4.2.1.css")
-loadStyle("https://www.jq22.com/demo/bootstrap4pop201912082352/css/bs4.pop.css")
-loadJs("https://www.jq22.com/jquery/bootstrap-4.2.1.js")
-loadJs("https://www.jq22.com/demo/bootstrap4pop201912082352/js/bs4.pop.js")
+// 原生javascript弹层弹窗插件Xtiper(原创)
+// http://www.jq22.com/jquery-info22377
+loadStyle("https://www.jq22.com/demo/jqueryxtiper201910201051/css/xtiper.css")
+loadJs("https://www.jq22.com/demo/jqueryxtiper201910201051/js/xtiper.min.js")
+function xtip_win()
+{
+    xtip.win({
+        type: 'confirm', //alert 或 confirm
+        btn: ["Github教程","知道了"],
+        tip: '<p><h3>简易教程：</h3><ul><li><span style="line-height:1.5;font-size:16px;">1.保存xxx_authorize.txt和xxx_passwd.txt</span></li><li><span style="line-height:1.5;font-size:16px;">2.git clone https:</li><li><span style="line-height:1.5;font-size:16px;">3.cd keledge;./main.py-a~/Downloads/xxx_authorize.txt</span></li><li><span style="line-height:1.5;font-size:16px;">4.Merge pdf.</span></li></ul><h3><span style="font-size:18px;">Github:</span><a href="https://github.com/ygcaicn/keledge"target="_blank"><span style="font-size:18px;">&nbsp;</span><span style="font-size:18px;">https://github.com/ygcaicn/keledge</h3></p>',
+        icon: 'success',
+        title: "简易教程",
+        min: true,
+        width: '600px',
+        shade: false,
+        shadeClose: false,
+        lock: true,
+        btn1: function(){
+            window.open(url='https://github.com/ygcaicn/keledge', target="_black");
+        },
+        zindex: 99999,
+    });
+}
+xtip_win()
 
 var prefix=null;
 var confirm_download=null;
+
 var saveByteArray = function (reportName, byte) {
     var blob = new Blob([byte], { type: "application/pdf" });
     var link = document.createElement('a');
@@ -46,21 +66,20 @@ function exportRaw(name, data) {
       fakeClick(save_link);
     } 
     
-// exportRaw('template.txt',TXTTEMP)
-
+// 浏览器内直接下载
 var download = function(i, byte){
     if(confirm_download==null){
         confirm_download = window.confirm("是否需要下载？");
     }
-    if(confirm_download){
-        if(prefix==null){
-            prefix = window.prompt("请输入保存文件前缀：");
-            if(prefix==="")
-                prefix = `${Math.floor((new Date()).getTime() / 1000)}`;
-        }
-        reportName = `${prefix}_${i}.pdf`;
-        saveByteArray(reportName, byte);
-    }
+    // if(confirm_download){
+    //     if(prefix==null){
+    //         prefix = window.prompt("请输入保存文件前缀：");
+    //         if(prefix==="")
+    //             prefix = `${Math.floor((new Date()).getTime() / 1000)}`;
+    //     }
+    //     reportName = `${prefix}_${i}.pdf`;
+    //     saveByteArray(reportName, byte);
+    // }
 }
 
 
@@ -68,9 +87,11 @@ var download = function(i, byte){
 // 输出 https://gateway.keledge.com/transfer/aqr/authorize
 var output_prefix = document.title;
 var output_authorize = function(result){
-    if(output_prefix==null)
+    xtip.confirm('是否保存authorize？',function(msg){
+        if(output_prefix==null)
         output_prefix = `${Math.floor((new Date()).getTime() / 1000)}`;
-    exportRaw(`${output_prefix}_authorize.txt`, JSON.stringify(result));
+        exportRaw(`${output_prefix}_authorize.txt`, JSON.stringify(result));
+    },{icon:'a', title:'authorize'});
 }
 
 var passwd_is_download = false
@@ -79,7 +100,10 @@ var output_password = function(passwd){
         return
     if(output_prefix==null)
         output_prefix = `${Math.floor((new Date()).getTime() / 1000)}`;
-    exportRaw(`${output_prefix}_passwd.txt`, passwd);
+    xtip.confirm('是否保存authorize？',function(msg){
+        exportRaw(`${output_prefix}_passwd.txt`, passwd);
+
+    },{icon:'a', title:'authorize'});
     passwd_is_download = true;
 }
 
