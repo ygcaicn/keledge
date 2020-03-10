@@ -95,40 +95,42 @@ var output_password = function(passwd){
     }
 }
 
-layer.open({
-    type: 0,
-    title: "简易教程",
-    skin: 'layui-layer-molv', //样式类名
-    closeBtn: 1,
-    anim: 1,
-    icon: 1,
-    shadeClose: false, //开启遮罩关闭
-    btn: ["Github教程","保存"],
-    content: '<h2>简易教程：</h2><p><br>1. 点击保存按钮，保存xxx_authorize.txt和xxx_passwd.txt<br>2. git clone git@github.com:ygcaicn/keledge.git <br>3. cd keledge;./main.py-a~/Downloads/xxx_authorize.txt<br>4.Merge pdf.<br><br>Github:<a href="https://github.com/ygcaicn/keledge" target="_blank">https://github.com/ygcaicn/keledge</a></p><br><p style="color:red">免责声明:请自觉遵守法律法规，本脚本仅供学习参考，所有下载的PDF请在24小时内删除，请勿传播，一切法律责任由用户自己承担，与本人无关</p>',
-    area: '600px',
-    resize: false,
-    move: false,
-    zindex: 99999,
-    btn1: function(){
-        window.open(url='https://github.com/ygcaicn/keledge', target="_black");
-    },
-    btn2: function(){
-        confirm_download = true;
-        layer.prompt({
-                formType: 0,
-                closeBtn: 0,
-                btn:["确定"],
-                value: document.title,
-                maxlength: 50,
-                area: 200,
-                title: '请输入书名：',
-            },
-            function(value, index, elem){
-                output_prefix = value;
-                layer.close(index);
-            });
-    }
-});
+window.οnlοad=function(){
+    layer.open({
+        type: 0,
+        title: "简易教程",
+        skin: 'layui-layer-molv', //样式类名
+        closeBtn: 1,
+        anim: 1,
+        icon: 1,
+        shadeClose: false, //开启遮罩关闭
+        btn: ["Github教程","保存"],
+        content: '<h2>简易教程：</h2><p><br>1. 点击保存按钮，保存xxx_authorize.txt和xxx_passwd.txt<br>2. git clone git@github.com:ygcaicn/keledge.git <br>3. cd keledge;./main.py-a~/Downloads/xxx_authorize.txt<br>4.Merge pdf.<br><br>Github:<a href="https://github.com/ygcaicn/keledge" target="_blank">https://github.com/ygcaicn/keledge</a></p><br><p style="color:red">免责声明:请自觉遵守法律法规，本脚本仅供学习参考，所有下载的PDF请在24小时内删除，请勿传播，一切法律责任由用户自己承担，与本人无关</p>',
+        area: '600px',
+        resize: false,
+        move: false,
+        zindex: 99999,
+        btn1: function(){
+            window.open(url='https://github.com/ygcaicn/keledge', target="_black");
+        },
+        btn2: function(){
+            confirm_download = true;
+            layer.prompt({
+                    formType: 0,
+                    closeBtn: 0,
+                    btn:["确定"],
+                    value: document.title,
+                    maxlength: 50,
+                    area: 200,
+                    title: '请输入书名：',
+                },
+                function(value, index, elem){
+                    output_prefix = value;
+                    layer.close(index);
+                });
+        }
+    });    
+}
 
 var t_var = setInterval(function(){
     if (passwdObj != null && authorObj != null && confirm_download){
