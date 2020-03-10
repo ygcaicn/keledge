@@ -165,7 +165,6 @@ window.οnlοad=function(){
             window.open(url='https://github.com/ygcaicn/keledge', target="_black");
         },
         btn2: function(){
-            confirm_download = true;
             layer.prompt({
                     formType: 0,
                     closeBtn: 0,
@@ -176,6 +175,7 @@ window.οnlοad=function(){
                     title: '请输入书名：',
                 },
                 function(value, index, elem){
+                    confirm_download = true;
                     output_prefix = value;
                     layer.close(index);
                     wait_dialog();

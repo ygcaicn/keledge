@@ -32,7 +32,13 @@ def decSplitFiles(enc_dir, dec_dir):
     ok = 0
     with ThreadPoolExecutor(max_workers=16) as executor:
         for root,_,files in os.walk(enc_dir):
-            future_to_url = {executor.submit(decSplitFile, passwd, os.path.join(root,f), os.path.join(dec_dir, f)): f for f in files}
+            future_to_url = {
+                executor.submit(
+                    decSplitFile,
+                    passwd,
+                    os.path.join(root,f),
+                    os.path.join(dec_dir, f)): f for f in files
+                }
         for future in as_completed(future_to_url):
             obj = future_to_url[future]
             try:
@@ -42,13 +48,14 @@ def decSplitFiles(enc_dir, dec_dir):
             else:
                 if ret == None:
                     ok+=1
-                    logging.info("page {} alerady decrypt.".format(obj['NumberOfPage']))
+                    logging.info("file {} alerady decrypt.".format(obj))
+
                 elif ret.returncode == 0:
                     ok+=1
-                    logging.info("page {} decrypt ok. {}".format(obj['NumberOfPage'], ret.stdout.decode()))
+                    logging.info("page {} decrypt ok. {}".format(obj, ret.stdout.decode()))
                 else:
                     logging.error(ret.stderr.decode())
-    print("总共：{}页\n成功：{}页".format(result['Data']['NumberOfPages'],ok))
+    print("总共：{}页\n成功：{}页".format(len(SplitFiles), ok))
     return ok
 
 
@@ -74,10 +81,11 @@ if __name__ == "__main__":
         result = json.load(authorize)
     with open(passwd_file, 'rt') as pwd:
         passwd = pwd.read(1024)
-    
-    print("共{}页".format(result['Data']['NumberOfPages']))
-
     SplitFiles = result['Data']['SplitFiles']
+    print("全书共{}页".format(result['Data']['NumberOfPages']))
+    print("authorize_file获取{}页".format(len(SplitFiles)))
+    if(len(SplitFiles)<result['Data']['NumberOfPages']):
+        logging.warning("authorize_file未获取全文，请确保你的帐号拥有阅读全文的权限！")
 
     while True:
         dowloadSplitFiles(SplitFiles)
@@ -85,7 +93,7 @@ if __name__ == "__main__":
         enc_dir = os.path.join(base_dir, book_prefix+'_enc')
         dec_dir = os.path.join(base_dir, book_prefix+'_dec')
         ok = decSplitFiles(enc_dir, dec_dir)
-        if ok < result['Data']['NumberOfPages']:
+        if ok < len(SplitFiles):
             retry = input("再次尝试？[Y/n]")
             if retry not in ['N', 'n', 'Not', 'not']:
                 continue

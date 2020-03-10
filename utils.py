@@ -49,7 +49,7 @@ def dowloadSplitFileUrl(d, obj, overwrite=0):
     with open(name, 'wb') as f:
         f.write(r.content)
     time.sleep(random.randint(10,20))
-    return "下载成功！{} {}".format(name, r.status_code)
+    return "下载成功！{} http_status:{}".format(name, r.status_code)
 
 def decSplitFile(p, i, o):
     d = os.path.dirname(o)
