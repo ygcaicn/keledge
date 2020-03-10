@@ -193,7 +193,7 @@ var t_var = setInterval(function(){
         if(output_prefix == null){
             output_prefix = `${Math.floor((new Date()).getTime() / 1000)}`;
         }
-        exportRaw(`${output_prefix}_authorize.txt`, JSON.stringify(authorObj));
+        exportRaw(`${output_prefix}_authorize.txt`, JSON.stringify(authorObj, null, 4));
         exportRaw(`${output_prefix}_passwd.txt`, passwdObj);
         layer.closeAll();
         layer.alert('保存成功，查看如何使用脚本获得pdf？', {icon: 1}, function(index){
