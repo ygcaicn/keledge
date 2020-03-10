@@ -139,7 +139,7 @@ setTimeout(function(){
         ,title: "等待获取信息"
         ,skin: 'layui-layer-molv' //样式类名
         ,offset: 't'
-        ,content: '<div style="padding: 10px auto;">正在获取信息</div>'
+        ,content: '<div style="padding: 10px auto;">正在获取信息...</div>'
         ,btn: []
         ,closeBtn: 0
         ,shade: 0 //不显示遮罩
