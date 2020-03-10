@@ -77,13 +77,19 @@ case 0x7:return _0x322189=_0x2d73dd['\x73\x65\x6e\x74'],_0x3ae007=CryptoJS['\x65
 case 0x7:var ast=CryptoJS['\x65\x6e\x63']['\x55\x74\x66\x38']['\x70\x61\x72\x73\x65'](this['\x76']['\x61\x75\x74\x68\x6f\x72\x4b\x65\x79']);output_password(ast);return _0x322189=_0x2d73dd['\x73\x65\x6e\x74'],_0x3ae007=CryptoJS['\x65\x6e\x63']['\x55\x74\x66\x38']['\x70\x61\x72\x73\x65'](this['\x76']['\x61\x75\x74\x68\x6f\x72\x4b\x65\x79']),_0x10fe46=CryptoJS['\x41\x45\x53']['\x64\x65\x63\x72\x79\x70\x74'](_0x322189,_0x3ae007,{'\x6d\x6f\x64\x65':CryptoJS['\x6d\x6f\x64\x65']['\x45\x43\x42'],'\x70\x61\x64\x64\x69\x6e\x67':CryptoJS['\x70\x61\x64']['\x50\x6b\x63\x73\x37']}),_0x2d73dd['\x6e\x65\x78\x74']=0xc,this['\x77\x6f\x72\x64\x41\x72\x72\x61\x79\x54\x6f\x55\x38'](_0x10fe46,_0xe8aca2,_0x1a2353);
 ```
 
+解密pdf方法：
+
+```sh
 openssl enc -d -aes-128-ecb -K 406c322141214d6e4e446e505450386c -in enc.pdf -out dec.pdf
+```
 
 ## 3.Overwrite js
 
+原理：利用Chrome插件重定向Js地址到我们fake的Js, 保存图书信息以及加密密码。
+
 [Gooreplacer](https://chrome.google.com/webstore/detail/gooreplacer/jnlkjeecojckkigmchmfoigphmgkgbip)
 
-![Gooreplacer](img/2020-03-09_05-46.png)
+![Gooreplacer](img/2020-03-10_18-00.png)
 
 Source: <https://cdn.keledge.com/web/static/js/3.47824973d763f5ca60a4.\S+.js>
 
@@ -91,7 +97,13 @@ Destination: <https://raw.githack.com/ygcaicn/keledge/master/nice2.js>
 
 Kind: regexp
 
+![ui](img/2020-03-10_18-13.png)
+
+*使用脚本需要登陆帐号对全文有访问权限！*
+
 ## 4.Download
+
+解析Step 3保存的authorize.txt下载加密的pdf，然后使用passwd.txt保存的密码解密生成pdf。
 
 ```sh
 ./main.py -a ~/Downloads/1583695806_authorize.txt

@@ -133,6 +133,19 @@ setTimeout(function(){
 
  }, 10000);
 
+ function wait_dialog(){
+    layer.open({
+        type: 0
+        ,title: "等待获取信息"
+        ,skin: 'layui-layer-molv' //样式类名
+        ,offset: 't'
+        ,content: '<div style="padding: 10px auto;">正在获取信息</div>'
+        ,btn: []
+        ,closeBtn: 0
+        ,shade: 0 //不显示遮罩
+      });
+ }
+
 window.οnlοad=function(){
     layer.open({
         type: 0,
@@ -165,6 +178,7 @@ window.οnlοad=function(){
                 function(value, index, elem){
                     output_prefix = value;
                     layer.close(index);
+                    wait_dialog();
                 });
         }
     });    
@@ -181,6 +195,7 @@ var t_var = setInterval(function(){
         }
         exportRaw(`${output_prefix}_authorize.txt`, JSON.stringify(authorObj));
         exportRaw(`${output_prefix}_passwd.txt`, passwdObj);
+        layer.closeAll();
         layer.alert('保存成功，查看如何使用脚本获得pdf？', {icon: 1}, function(index){
             //do something
             window.open(url='https://github.com/ygcaicn/keledge', target="_black");
