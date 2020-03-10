@@ -40,18 +40,17 @@ var a26_0x5f43 = ["text/html", "wrap", "\u6dfb\u52a0\u4e66\u7b7e\u6210\u529f", "
                 /** @type {number} */
                 i = 0;
                 var key = value["length"];
-                console.log(value);
                 for (; i < key; i++) {
                     var v = value[i];
                     /** @type {string} */
                     cookie = cookie + ("; " + v);
-                    // var char = value[v];
-                    // value["push"](char);
-                    // key = value["length"];
-                    // if (char !== !![]) {
-                    //     /** @type {string} */
-                    //     cookie = cookie + ("=" + char);
-                    // }
+                    var char = value[v];
+                    value["push"](char);
+                    key = value["length"];
+                    if (char !== !![]) {
+                        /** @type {string} */
+                        cookie = cookie + ("=" + char);
+                    }
                 }
                 /** @type {string} */
                 headers["cookie"] = cookie;

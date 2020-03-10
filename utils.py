@@ -12,9 +12,8 @@ Connection: keep-alive
 Pragma: no-cache
 Cache-Control: no-cache
 Accept: application/json, text/plain, */*
-Sec-Fetch-Dest: empty
+Sec-Fetch-Dest: document
 User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.132 Safari/537.36
-Origin: null
 Sec-Fetch-Site: same-site
 Sec-Fetch-Mode: cors
 Referer: https://www.keledge.com
@@ -24,7 +23,7 @@ Accept-Language: en,zh-CN;q=0.9,zh;q=0.8,pt;q=0.7
 '''
 
 headers = dict([i.split(': ', 1) for i in h.split('\n') if i != ''])
-
+headers = {}
 def dowloadSplitFileUrl(d, obj, overwrite=0):
     
     if not os.path.exists(d):
@@ -44,8 +43,15 @@ def dowloadSplitFileUrl(d, obj, overwrite=0):
         time.sleep(5)
         return "下载失败：{} {}".format(name, r.status_code)
     if len(r.content) < 2000:
+        try:
+            r.content.decode()
+        except UnicodeDecodeError:
+            # 空白页
+            with open(name, 'wb') as f:
+                f.write(r.content)
+            return "下载成功！空白页{} http_status:{}".format(name, r.status_code)  
         time.sleep(30)
-        return "下载失败：{} {} size:{}Bytes\n{}".format(name, r.status_code, len(r.content), r.content.decode())
+        return "下载失败：{} {} {} size:{}Bytes\n{}".format(name, r.status_code, url, len(r.content), r.text)
     with open(name, 'wb') as f:
         f.write(r.content)
     time.sleep(random.randint(10,20))
@@ -58,9 +64,11 @@ def decSplitFile(p, i, o):
 
     if os.path.exists(o):
         return
-    cmd = "openssl enc -d -aes-128-ecb -K {} -in {} -out {}".format(p, i, o)
-    cmd = cmd.split()
-    r = subprocess.run(cmd, capture_output=True)
+    cmd = 'openssl enc -d -aes-128-ecb -K "{}" -in "{}" -out "{}"'.format(p, i, o)
+    
+    # cmd = cmd.split()
+    r = subprocess.run(cmd, capture_output=True, shell=True)
     if r.returncode != 0:
-        os.remove(o)
+        if os.path.exists(o):
+            os.remove(o)
     return r
