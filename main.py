@@ -74,6 +74,8 @@ if __name__ == "__main__":
         result = json.load(authorize)
     with open(passwd_file, 'rt') as pwd:
         passwd = pwd.read(1024)
+    
+    print("共{}页".format(result['Data']['NumberOfPages']))
 
     SplitFiles = result['Data']['SplitFiles']
 
