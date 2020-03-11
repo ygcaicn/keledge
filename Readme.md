@@ -1,6 +1,6 @@
 # Keledge Pdf下载
 
-[可知](https://keledge.com)平台pdf下载，仅支持pdf格式资源下载。
+[可知](https://www.keledge.com/)平台pdf下载，仅支持pdf格式资源下载。
 
 ## 免责声明
 
