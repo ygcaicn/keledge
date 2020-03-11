@@ -111,6 +111,8 @@ Kind: regexp
 
 解析Step 3保存的authorize.txt下载加密的pdf，然后使用passwd.txt保存的密码解密生成pdf。
 
+*解密pdf依赖系统openssl，windows平台下自行安装解决！*
+
 ```sh
 ./main.py -a ~/Downloads/1583695806_authorize.txt
 ```
