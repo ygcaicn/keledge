@@ -156,7 +156,7 @@ window.οnlοad=function(){
         icon: 1,
         shadeClose: false, //开启遮罩关闭
         btn: ["Github教程","保存"],
-        content: '<h2>简易教程：</h2><div style="padding: 10px;line-height: 250%;font-size: medium;"> <p><br>1. 点击保存按钮，保存xxx_authorize.txt和xxx_passwd.txt<br>2. git clone git@github.com:ygcaicn/keledge.git <br>3. cd keledge;./main.py -a ~/Downloads/xxx_authorize.txt<br>4. Merge pdf.<br>Github:<a href="https://github.com/ygcaicn/keledge" target="_blank">https://github.com/ygcaicn/keledge 欢迎star&issue</a></p><br><p style="color:red">免责声明:请自觉遵守法律法规，本脚本仅供学习参考，所有下载的PDF请在24小时内删除，请勿传播，一切法律责任由用户自己承担，与本人无关</p></div>',
+        content: '<h2>简易教程：</h2><div style="padding: 10px;line-height: 250%;font-size: medium;"> <p><br>1. 点击保存按钮，保存xxx_authorize.txt和xxx_passwd.txt<br>2. 使用脚本下载<pre>git clone git@github.com:ygcaicn/keledge.git</pre> <pre>cd keledge;./main.py -a ~/Downloads/xxx_authorize.txt</pre>3. Merge pdf.<br>Github:<a href="https://github.com/ygcaicn/keledge" target="_blank">https://github.com/ygcaicn/keledge 欢迎<b>star&issue</b></a></p><br><p style="color:red">免责声明:请自觉遵守法律法规，本脚本仅供学习参考，所有下载的PDF请在24小时内删除，请勿传播，一切法律责任由用户自己承担，与本人无关</p></div>',
         area: '600px',
         resize: false,
         move: false,
