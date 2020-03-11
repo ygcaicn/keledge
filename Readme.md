@@ -22,7 +22,7 @@
 
 ## 1.获取Pdf信息（加密）
 
-使用直接从3开始即可！
+使用直接从Step 3开始即可！
 
 <https://gateway.keledge.com/transfer/aqr/authorize>
 
@@ -112,6 +112,8 @@ Kind: regexp
 ```sh
 ./main.py -a ~/Downloads/1583695806_authorize.txt
 ```
+
+![demo](./img/2020-03-11_17-39.png)
 
 ## 5.Merge
 
