@@ -124,3 +124,11 @@ Kind: regexp
 ![pdfsam](img/2020-03-09_06-12.png)
 
 <https://pdfsam.org/>
+
+or(Linux):
+
+```bash
+apt install mupdf-tools
+cd xxx_dec
+ls *.pdf | sort -n | xargs mutool merge -o xxx.pdf
+```
