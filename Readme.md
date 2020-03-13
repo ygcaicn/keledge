@@ -117,6 +117,18 @@ Kind: regexp
 ./main.py -a ~/Downloads/1583695806_authorize.txt
 ```
 
+无人监管下载：
+
+使用-t可以指定下载休眠时间，防止下载过快导致下载失败。当脚本检测到未完全成功下载时会提示是否再次尝试，默认等待时间1分钟，会自动再次尝试下载。
+
+例如在夜间进行自动化下载：
+
+```sh
+./main.py -a ~/Downloads/x1_authorize.txt -t 300
+./main.py -a ~/Downloads/x2_authorize.txt -t 300
+./main.py -a ~/Downloads/x3_authorize.txt -t 300
+```
+
 ![demo](./img/2020-03-11_17-39.png)
 
 ## 5.Merge

@@ -7,12 +7,13 @@ import logging
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
 from utils import dowloadSplitFileUrl, decSplitFile
+from inputimeout import inputimeout, TimeoutOccurred
 FORMAT = '%(levelname)-4s: %(message)s'
 logging.basicConfig(level=logging.INFO, format=FORMAT)
-def dowloadSplitFiles(SplitFiles):
+def dowloadSplitFiles(SplitFiles, time=0):
     enc_dir = os.path.join(base_dir, book_prefix+'_enc')
     with ThreadPoolExecutor(max_workers=5) as executor:
-        future_to_url = {executor.submit(dowloadSplitFileUrl, enc_dir, obj): obj for obj in SplitFiles}
+        future_to_url = {executor.submit(dowloadSplitFileUrl, enc_dir, obj, time): obj for obj in SplitFiles}
         for future in as_completed(future_to_url):
             obj = future_to_url[future]
             try:
@@ -66,6 +67,8 @@ if __name__ == "__main__":
                     help='authorize file')
     parser.add_argument('-p', dest='passwd_file', action='store',
                     help='passwd file')
+    parser.add_argument('-t', dest='sleep',type=int, default=0, action='store',
+                    help='sleep time in second')
     args = parser.parse_args()
     authorize_file = args.authorize_file
     base_dir = os.path.dirname(authorize_file)
@@ -88,13 +91,17 @@ if __name__ == "__main__":
         logging.warning("authorize_file未获取全文，请确保你的帐号拥有阅读全文的权限！")
 
     while True:
-        dowloadSplitFiles(SplitFiles)
+        dowloadSplitFiles(SplitFiles, args.sleep)
         # dowloadSplitFilesByLoop(SplitFiles)
         enc_dir = os.path.join(base_dir, book_prefix+'_enc')
         dec_dir = os.path.join(base_dir, book_prefix+'_dec')
         ok = decSplitFiles(enc_dir, dec_dir)
         if ok < len(SplitFiles):
-            retry = input("再次尝试？[Y/n]")
+            retry = 'Y'
+            try:
+                retry = inputimeout(prompt='再次尝试？[Y/n]', timeout=60)
+            except TimeoutOccurred:
+                retry = 'Y'
             if retry not in ['N', 'n', 'Not', 'not']:
                 continue
             else:

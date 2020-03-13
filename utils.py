@@ -24,7 +24,7 @@ Accept-Language: en,zh-CN;q=0.9,zh;q=0.8,pt;q=0.7
 
 headers = dict([i.split(': ', 1) for i in h.split('\n') if i != ''])
 headers = {}
-def dowloadSplitFileUrl(d, obj, overwrite=0):
+def dowloadSplitFileUrl(d, obj, t=0, overwrite=0, ):
     
     if not os.path.exists(d):
         os.makedirs(d)
@@ -40,7 +40,8 @@ def dowloadSplitFileUrl(d, obj, overwrite=0):
     url = obj['Url']
     r = requests.get(url, headers=headers)
     if r.status_code >= 300:
-        time.sleep(5)
+        time.sleep(max(5, t))
+
         return "下载失败：{} {}".format(name, r.status_code)
     if len(r.content) < 2000:
         try:
@@ -49,12 +50,13 @@ def dowloadSplitFileUrl(d, obj, overwrite=0):
             # 空白页
             with open(name, 'wb') as f:
                 f.write(r.content)
-            return "下载成功！空白页{} http_status:{}".format(name, r.status_code)  
-        time.sleep(30)
+            return "下载成功！空白页{} http_status:{}".format(name, r.status_code)
+        time.sleep(max(30, t))
         return "下载失败：{} {} {} size:{}Bytes\n{}".format(name, r.status_code, url, len(r.content), r.text)
     with open(name, 'wb') as f:
         f.write(r.content)
-    time.sleep(random.randint(10,20))
+
+    time.sleep(max(random.randint(10,20), t))
     return "下载成功！{} http_status:{}".format(name, r.status_code)
 
 def decSplitFile(p, i, o):
