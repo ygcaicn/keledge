@@ -174,7 +174,7 @@ var t_var = setInterval(function(){
         exportRaw(`${output_prefix}_authorize.txt`, JSON.stringify(authorObj, null, 4));
         exportRaw(`${output_prefix}_passwd.txt`, passwdObj);
         layer.closeAll();
-        layer.alert('保存成功，查看如何使用脚本获得pdf？(记得star哟！)', {icon: 1}, function(index){
+        layer.alert('保存成功，查看如何使用脚本获得pdf？(记得star哟！)', {icon: 1, area: '500px'}, function(index){
             //do something
             window.open(url='https://github.com/ygcaicn/keledge', target="_black");
             layer.close(index);
