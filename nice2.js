@@ -176,12 +176,14 @@ function check_exec(){
             // 总页数 authorObj['Data']["NumberOfPages"]
             // 获取到的页数 authorObj['Data']["SplitFileUrls"].length
             if(authorObj['Data']["SplitFileUrls"].length < authorObj['Data']["NumberOfPages"]){
-                layer.confirm(`未获取全文阅读权限！<br>本书总页数：${authorObj['Data']["NumberOfPages"]}<br>获取到的页数：${authorObj['Data']["SplitFileUrls"].length}`, {
+                layer.alert(`未获取全文阅读权限！<br>本书总页数：${authorObj['Data']["NumberOfPages"]}<br>获取到的页数：${authorObj['Data']["SplitFileUrls"].length}`, {
+                    icon: 2,
                     btn: ['继续下载','荐购获取权限'] //按钮
                   }, function(){
+                    // 继续下载
                     export_exec();
                   }, function(){
-    
+                    // 荐购获取权限
                   });
             }
             else{
