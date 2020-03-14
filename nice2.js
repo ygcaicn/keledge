@@ -151,7 +151,7 @@ function wait_dialog(){
  }
 
  var t_init = setInterval(function(){ 
-    ui_is_init();
+    ui_init();
     if(ui_is_init)
     {
         clearInterval(t_init);
