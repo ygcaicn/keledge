@@ -144,3 +144,9 @@ apt install mupdf-tools
 cd xxx_dec
 ls *.pdf | sort -n | xargs mutool merge -o xxx.pdf
 ```
+
+## 6.目录
+
+合并的pdf是没有目录的，由于大部分pdf都是文字版的，目录比较好处理，Windows下可以使用：pdgcnteditor
+
+Linux/Mac： <https://github.com/ygcaicn/pdf_toc>
