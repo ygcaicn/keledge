@@ -109,7 +109,17 @@ Kind: regexp
 
 ## 4.Download
 
-解析Step 3保存的authorize.txt下载加密的pdf，然后使用passwd.txt保存的密码解密生成pdf。
+原理：解析Step 3保存的authorize.txt下载加密的pdf，然后使用passwd.txt保存的密码解密生成pdf。
+
+```sh
+usage: main.py [-h] -a AUTHORIZE_FILE [-p PASSWD_FILE] [-t SLEEP]
+
+optional arguments:
+  -h, --help         show this help message and exit
+  -a AUTHORIZE_FILE  authorize file
+  -p PASSWD_FILE     passwd file
+  -t SLEEP           sleep time in second
+```
 
 *解密pdf依赖系统openssl，windows平台下自行[安装](http://slproweb.com/products/Win32OpenSSL.html)解决！*
 
