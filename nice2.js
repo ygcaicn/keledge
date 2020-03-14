@@ -152,6 +152,7 @@ function ui_init(){
 
 var t_var;
 function check_exec(){
+    clearInterval(t_var);
     t_var = setInterval(function(){
         if (passwdObj != null && authorObj != null && confirm_download == true){
             clearInterval(t_var);
