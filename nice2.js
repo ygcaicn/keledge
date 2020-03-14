@@ -135,16 +135,6 @@ function ui_init(){
         }
     });
     ui_is_init = true;
-    layer.confirm('Github:<a style="color: #23696f" href="https://github.com/ygcaicn/keledge" target="_blank">给个star！</a><br>', 
-    {
-        shade: 0, 
-        offset: 'rt',
-        btn: ['执行脚本']
-    }, function(){
-        ui_is_init = false;
-        ui_init();
-   });
-   
 }
 
 function wait_dialog(){
@@ -159,6 +149,22 @@ function wait_dialog(){
         ,shade: 0 //不显示遮罩
       });
  }
+
+ var t_d = setInterval(function(){
+    if(ui_is_init == true){
+        clearInterval(t_d);
+        layer.confirm('Github:<a style="color: #23696f" href="https://github.com/ygcaicn/keledge" target="_blank">给个star！</a><br>', 
+        {
+            type: 1,
+            shade: 0, 
+            offset: 'rt',
+            btn: ['执行脚本']
+        }, function(){
+            ui_is_init = false;
+            ui_init();
+       });
+    }
+ }, 1000)
 
 var t_var = setInterval(function(){
     if (passwdObj != null && authorObj != null && confirm_download == true){
