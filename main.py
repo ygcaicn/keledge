@@ -90,7 +90,7 @@ if __name__ == "__main__":
     if not result['Data'].get('SplitFiles'):
         result['Data']['SplitFiles']=[]
         for i,u in enumerate(result['Data']['SplitFileUrls']):
-            result['Data']['SplitFiles'].append({"NumberOfPage":i,"Url":u})
+            result['Data']['SplitFiles'].append({"NumberOfPage":i+1,"Url":u})
     
     SplitFiles = result['Data']['SplitFiles']
     if not result['Data'].get('NumberOfPages'):
