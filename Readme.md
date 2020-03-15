@@ -111,6 +111,8 @@ Destination: <https://raw.githack.com/ygcaicn/keledge/master/nice2.js>
 
 Kind: regexp
 
+*Source/Destination均无需改动，直接copy即可。*
+
 ![ui](img/2020-03-10_18-13.png)
 
 *使用脚本需要登陆帐号对全文有访问权限！*
