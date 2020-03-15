@@ -6,6 +6,7 @@ import re
 import json
 import requests
 import subprocess
+import shlex
 from datetime import datetime
 
 h = '''
@@ -104,8 +105,8 @@ def decSplitFile(p, i, o):
         return
     cmd = 'openssl enc -d -aes-128-ecb -K "{}" -in "{}" -out "{}"'.format(p, i, o)
     
-    # cmd = cmd.split()
-    r = subprocess.run(cmd, capture_output=True, shell=True)
+    cmd = shlex.split(cmd)
+    r = subprocess.run(cmd, capture_output=True)
     if r.returncode != 0:
         if os.path.exists(o):
             os.remove(o)
