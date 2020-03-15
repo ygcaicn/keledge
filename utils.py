@@ -2,6 +2,7 @@
 import os
 import time
 import random
+import re
 import json
 import requests
 import subprocess
@@ -35,8 +36,6 @@ def dowloadSplitFileUrl(d, obj, t=0, overwrite=0, ):
         os.remove(name)
     if os.path.exists(name) and overwrite==0:
         return "已存在！{}".format(name)
-        
-
     url = obj['Url']
     r = requests.get(url, headers=headers)
     if r.status_code >= 300:
@@ -58,6 +57,43 @@ def dowloadSplitFileUrl(d, obj, t=0, overwrite=0, ):
 
     time.sleep(max(random.randint(10,20), t))
     return "下载成功！{} http_status:{}".format(name, r.status_code)
+
+def Guess51zhyFull(SplitFiles, increment=64, t=0):
+    left_page = SplitFiles[-1]['NumberOfPage']
+    url = SplitFiles[-1]['Url']
+    base_url = os.path.dirname(url)
+    template_url = os.path.join(base_url, '{}.pdf')
+    re_p = re.match(r'(\d+).pdf', os.path.basename(url))
+    try:
+        int(re_p.group(1))
+    except Exception as e:
+        print('error:{}'.format(e))
+        return
+    while True:
+        right_page = left_page + increment
+        r = requests.get(template_url.format(right_page))
+        time.sleep(max(5,t))
+        print("try page: {}".format(template_url.format(right_page)))
+        if r.status_code == 404:
+            break
+        left_page = right_page
+    
+    def find(left, right):
+        if right-left == 1:
+            return left
+        mid = (left+right)//2
+        r = requests.get(template_url.format(mid))
+        print("try page: {}".format(template_url.format(mid)))
+        time.sleep(max(15,t))
+        if r.status_code == 404:
+            return find(left, mid)
+        else:
+            return find(mid, right)
+    
+    start = SplitFiles[-1]['NumberOfPage']
+    end = find(left_page, right_page)
+    for i in range(start+1, end+1):
+        SplitFiles.append({"NumberOfPage":i,"Url":template_url.format(i)})
 
 def decSplitFile(p, i, o):
     d = os.path.dirname(o)

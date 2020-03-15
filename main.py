@@ -5,8 +5,8 @@ import os
 import argparse
 import logging
 from concurrent.futures import ThreadPoolExecutor, as_completed
+from utils import dowloadSplitFileUrl, decSplitFile, Guess51zhyFull
 
-from utils import dowloadSplitFileUrl, decSplitFile
 from inputimeout import inputimeout, TimeoutOccurred
 FORMAT = '%(levelname)-4s: %(message)s'
 logging.basicConfig(level=logging.INFO, format=FORMAT)
@@ -22,6 +22,7 @@ def dowloadSplitFiles(SplitFiles, time=0):
                 logging.warning('%r generated an exception: %s' % (obj, exc))
             else:
                 logging.info(ret)
+
 
 def dowloadSplitFilesByLoop(SplitFiles):
     enc_dir = os.path.join(base_dir, book_prefix+'_enc')
@@ -69,6 +70,7 @@ if __name__ == "__main__":
                     help='passwd file')
     parser.add_argument('-t', dest='sleep',type=int, default=0, action='store',
                     help='sleep time in second')
+    parser.add_argument('--no-guess',dest='guess', action='store_false', help="Don't guess 51zhy.cn Full pages")
     args = parser.parse_args()
     authorize_file = args.authorize_file
     base_dir = os.path.dirname(authorize_file)
@@ -84,11 +86,25 @@ if __name__ == "__main__":
         result = json.load(authorize)
     with open(passwd_file, 'rt') as pwd:
         passwd = pwd.read(1024)
+
+    if not result['Data'].get('SplitFiles'):
+        result['Data']['SplitFiles']=[]
+        for i,u in enumerate(result['Data']['SplitFileUrls']):
+            result['Data']['SplitFiles'].append({"NumberOfPage":i,"Url":u})
+    
     SplitFiles = result['Data']['SplitFiles']
-    print("全书共{}页".format(result['Data']['NumberOfPages']))
+    if not result['Data'].get('NumberOfPages'):
+        print("全书页数未知")
+        result['Data']['NumberOfPages'] = len(SplitFiles)
+    else:
+        print("全书共{}页".format(result['Data']['NumberOfPages']))
     print("authorize_file获取{}页".format(len(SplitFiles)))
+    if args.guess and SplitFiles[0]['Url'].find('51zhy')>0:
+        Guess51zhyFull(SplitFiles)
+        print("Guess51zhyFull后获取{}页".format(len(SplitFiles)))
+
     if(len(SplitFiles)<result['Data']['NumberOfPages']):
-        logging.warning("authorize_file未获取全文，请确保你的帐号拥有阅读全文的权限！")
+        logging.warning("authorize_file未获取全文，请确保你的帐号拥有阅读全文的权限！\n(tip:获取到的页数比总页数少1页，实际上已经是全文了，可忽略！)")
 
     while True:
         dowloadSplitFiles(SplitFiles, args.sleep)
@@ -96,7 +112,7 @@ if __name__ == "__main__":
         enc_dir = os.path.join(base_dir, book_prefix+'_enc')
         dec_dir = os.path.join(base_dir, book_prefix+'_dec')
         ok = decSplitFiles(enc_dir, dec_dir)
-        if ok < len(SplitFiles):
+        if ok < len(SplitFiles)-1:
             retry = 'Y'
             try:
                 retry = inputimeout(prompt='再次尝试？[Y/n]', timeout=60)
