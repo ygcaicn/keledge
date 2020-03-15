@@ -4,7 +4,7 @@
 
 [高教书苑->](hep/hep.md)
 
-[悦读->](https://yd.51zhy.cn/)
+[悦读->](51zhy/51zhy.md)
 
 ---
 
