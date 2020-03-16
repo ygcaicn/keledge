@@ -50,7 +50,7 @@ def decSplitFiles(enc_dir, dec_dir):
             else:
                 if ret == None:
                     ok+=1
-                    logging.info("file {} alerady decrypt.".format(obj))
+                    logging.info("file {} already decrypt.".format(obj))
 
                 elif ret.returncode == 0:
                     ok+=1
