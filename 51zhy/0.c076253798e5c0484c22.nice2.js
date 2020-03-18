@@ -98,7 +98,6 @@ var ui_is_init = false;
 // Hook
 var output_authorize = function(result){
 	authorObj = result;
-	authorObj['Data']['NumberOfPages'] = result['Data']['SplitFileUrls'].length;
     if(confirm_download == true){
         layer.msg('get authorize!', function(){
             //关闭后的操作
