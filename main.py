@@ -6,12 +6,16 @@ import argparse
 import logging
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from utils import dowloadSplitFileUrl, decSplitFile, Guess51zhyFull
-
 from inputimeout import inputimeout, TimeoutOccurred
+
+
 FORMAT = '%(levelname)-4s: %(message)s'
 logging.basicConfig(level=logging.INFO, format=FORMAT)
+
 def dowloadSplitFiles(SplitFiles, time=0):
     enc_dir = os.path.join(base_dir, book_prefix+'_enc')
+    os.makedirs(enc_dir, exist_ok=True)
+
     with ThreadPoolExecutor(max_workers=5) as executor:
         future_to_url = {executor.submit(dowloadSplitFileUrl, enc_dir, obj, time): obj for obj in SplitFiles}
         for future in as_completed(future_to_url):
@@ -26,11 +30,13 @@ def dowloadSplitFiles(SplitFiles, time=0):
 
 def dowloadSplitFilesByLoop(SplitFiles):
     enc_dir = os.path.join(base_dir, book_prefix+'_enc')
+    os.makedirs(enc_dir, exist_ok=True)
     for obj in SplitFiles:
         ret = dowloadSplitFileUrl(enc_dir,  obj)
         logging.info(ret)
 
 def decSplitFiles(enc_dir, dec_dir):
+    os.makedirs(dec_dir, exist_ok=True)
     ok = 0
     with ThreadPoolExecutor(max_workers=16) as executor:
         for root,_,files in os.walk(enc_dir):
@@ -56,7 +62,7 @@ def decSplitFiles(enc_dir, dec_dir):
                     ok+=1
                     logging.info("page {} decrypt ok. {}".format(obj, ret.stdout.decode()))
                 else:
-                    logging.error(ret.stderr.decode())
+                    logging.error("page {} error:{}".format(obj, ret.stderr.decode()))
     print("总共：{}页\n成功：{}页".format(len(SplitFiles), ok))
     return ok
 

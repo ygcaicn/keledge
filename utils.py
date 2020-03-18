@@ -27,9 +27,7 @@ Accept-Language: en,zh-CN;q=0.9,zh;q=0.8,pt;q=0.7
 headers = dict([i.split(': ', 1) for i in h.split('\n') if i != ''])
 headers = {}
 def dowloadSplitFileUrl(d, obj, t=0, overwrite=0, ):
-    
-    if not os.path.exists(d):
-        os.makedirs(d)
+    os.makedirs(d, exist_ok=True)
     
     page = obj['NumberOfPage']
     name = os.path.join(d, "{}.pdf".format(page))
@@ -77,6 +75,10 @@ def Guess51zhyFull(SplitFiles, increment=64, t=0):
         print("try page: {}".format(template_url.format(right_page)))
         if r.status_code == 404:
             break
+        if r.text.find("操作过快") > 0:
+            print('error:操作过快\n{}'.format(r.text))
+            time.sleep(60)
+            continue
         left_page = right_page
     
     def find(left, right):
@@ -89,6 +91,9 @@ def Guess51zhyFull(SplitFiles, increment=64, t=0):
         if r.status_code == 404:
             return find(left, mid)
         else:
+            if r.text.find("操作过快") > 0:
+                print('error:操作过快\n{}'.format(r.text))
+                time.sleep(60)
             return find(mid, right)
     
     start = SplitFiles[-1]['NumberOfPage']
@@ -98,8 +103,7 @@ def Guess51zhyFull(SplitFiles, increment=64, t=0):
 
 def decSplitFile(p, i, o):
     d = os.path.dirname(o)
-    if not os.path.exists(d):
-        os.makedirs(d)
+    os.makedirs(d, exist_ok=True)
 
     if os.path.exists(o):
         return
