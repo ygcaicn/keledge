@@ -81,6 +81,7 @@ if __name__ == "__main__":
     authorize_file = args.authorize_file
     base_dir = os.path.dirname(authorize_file)
     book_prefix = os.path.basename(authorize_file).replace('_authorize.txt','')
+    passwd_file = args.passwd_file
     if args.passwd_file is None:
         passwd_file = os.path.join(base_dir, book_prefix+"_passwd.txt")
         if not os.path.exists(passwd_file):

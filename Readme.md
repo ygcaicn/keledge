@@ -117,6 +117,8 @@ Kind: regexp
 
 *使用脚本需要登陆帐号对全文有访问权限！*
 
+Or online Rule: <https://raw.githubusercontent.com/ygcaicn/keledge/master/Gooreplacer.json>
+
 ## 4.Download
 
 原理：解析Step 3保存的authorize.txt下载加密的pdf，然后使用passwd.txt保存的密码解密生成pdf。

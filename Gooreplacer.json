@@ -1,0 +1,51 @@
+{
+  "createBy": "http://liujiacai.net/gooreplacer/",
+  "version": "3.11.0",
+  "createAt": "3/19/2020, 11:20:29 PM",
+  "redirect-rules": [
+    {
+      "src": "https://gateway.keledge.com/transfer/risk/check",
+      "kind": "wildcard",
+      "dst": "https://httpbin.org/post",
+      "enable": false
+    },
+    {
+      "src": "https://cdn.keledge.com/web/static/js/3.878b418d7f1298f150e8.\\S+.js",
+      "kind": "regexp",
+      "dst": "https://raw.githack.com/ygcaicn/keledge/master/nice2.js",
+      "enable": true
+    },
+    {
+      "src": "https://ebook.hep.com.cn/ebooks/read/static/js/3.3fe9d02c34f5e5a3fc36.\\S+.js",
+      "kind": "regexp",
+      "dst": "https://raw.githack.com/ygcaicn/keledge/master/hep/3.3fe9d02c34f5e5a3fc36.nice2.js",
+      "enable": true
+    },
+    {
+      "src": "https://ebook.hep.com.cn/ebooks/read/static/js/3.f91035baf333fda1fee9.\\S+.js",
+      "kind": "regexp",
+      "dst": "https://raw.githack.com/ygcaicn/keledge/master/hep/3.3fe9d02c34f5e5a3fc36.nice2.js",
+      "enable": true
+    },
+    {
+      "src": "https://yd.51zhy.cn/ebook/reader/static/js/0.c076253798e5c0484c22.\\S+.js",
+      "kind": "regexp",
+      "dst": "https://raw.githack.com/ygcaicn/keledge/master/51zhy/0.c076253798e5c0484c22.nice2.js",
+      "enable": true
+    }
+  ],
+  "cancel-rules": [
+    {
+      "src": "hm.baidu.com",
+      "kind": "wildcard",
+      "enable": true
+    },
+    {
+      "src": "https://gateway.keledge.com/transfer/risk/check",
+      "kind": "wildcard",
+      "enable": true
+    }
+  ],
+  "request-headers": [],
+  "response-headers": []
+}
