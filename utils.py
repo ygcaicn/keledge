@@ -29,7 +29,11 @@ headers = {}
 def dowloadSplitFileUrl(d, obj, t=0, overwrite=0, ):
     os.makedirs(d, exist_ok=True)
     
-    page = obj['NumberOfPage']
+    page = obj.get('NumberOfPage')
+    if not page:
+        page = obj.get('Page')
+    if not page:
+        return "Can't get page number.{}".format(obj)
     name = os.path.join(d, "{}.pdf".format(page))
     if os.path.exists(name) and os.path.getsize(name) < 2000:
         os.remove(name)
