@@ -10,22 +10,21 @@ import shlex
 from datetime import datetime
 
 h = '''
-Connection: keep-alive
-Pragma: no-cache
-Cache-Control: no-cache
-Accept: application/json, text/plain, */*
-Sec-Fetch-Dest: document
-User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.132 Safari/537.36
-Sec-Fetch-Site: same-site
-Sec-Fetch-Mode: cors
-Referer: https://www.keledge.com
-Accept-Encoding: gzip, deflate, br
-Accept-Language: en,zh-CN;q=0.9,zh;q=0.8,pt;q=0.7
-
+accept: application/json, text/plain, */*
+accept-encoding: gzip, deflate, br
+accept-language: en,zh-CN;q=0.9,zh;q=0.8,pt;q=0.7
+cache-control: no-cache
+origin: null
+pragma: no-cache
+referer: https://www.keledge.com
+sec-fetch-dest: empty
+sec-fetch-mode: cors
+sec-fetch-site: same-site
+user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36
 '''
 
 headers = dict([i.split(': ', 1) for i in h.split('\n') if i != ''])
-headers = {}
+
 def dowloadSplitFileUrl(d, obj, t=0, overwrite=0, ):
     os.makedirs(d, exist_ok=True)
     

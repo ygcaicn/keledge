@@ -105,7 +105,7 @@ openssl enc -d -aes-128-ecb -K 406c322141214d6e4e446e505450386c -in enc.pdf -out
 
 ![Gooreplacer](img/2020-03-10_18-00.png)
 
-Source: <https://cdn.keledge.com/web/static/js/3.47824973d763f5ca60a4.\S+.js>
+Source: ~~<https://cdn.keledge.com/web/static/js/3.47824973d763f5ca60a4.\S+.js>~~ **此地址已无效，为了提高门槛，此地址不再更新！**
 
 Destination: <https://raw.githack.com/ygcaicn/keledge/master/nice2.js>
 
