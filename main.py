@@ -12,12 +12,12 @@ from inputimeout import inputimeout, TimeoutOccurred
 FORMAT = '%(levelname)-4s: %(message)s'
 logging.basicConfig(level=logging.INFO, format=FORMAT)
 
-def dowloadSplitFiles(SplitFiles, time=0):
+def dowloadSplitFiles(SplitFiles, sleep=0, headers=None):
     enc_dir = os.path.join(base_dir, book_prefix+'_enc')
     os.makedirs(enc_dir, exist_ok=True)
 
     with ThreadPoolExecutor(max_workers=5) as executor:
-        future_to_url = {executor.submit(dowloadSplitFileUrl, enc_dir, obj, time): obj for obj in SplitFiles}
+        future_to_url = {executor.submit(dowloadSplitFileUrl, enc_dir, obj, sleep, headers): obj for obj in SplitFiles}
         for future in as_completed(future_to_url):
             obj = future_to_url[future]
             try:
@@ -72,22 +72,33 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('-a', dest='authorize_file', required=True, action='store',
                     help='authorize file')
-    parser.add_argument('-p', dest='passwd_file', action='store',
-                    help='passwd file')
-    parser.add_argument('-t', dest='sleep',type=int, default=0, action='store',
-                    help='sleep time in second')
+    parser.add_argument('-p', dest='passwd_file', action='store', help='passwd file')
+    parser.add_argument('-i', dest='info_file', action='store', help='info file')               
+    parser.add_argument('-t', dest='sleep',type=int, default=0, action='store', help='sleep time in second')
     parser.add_argument('--no-guess',dest='guess', action='store_false', help="Don't guess 51zhy.cn Full pages")
     args = parser.parse_args()
     authorize_file = args.authorize_file
     base_dir = os.path.dirname(authorize_file)
     book_prefix = os.path.basename(authorize_file).replace('_authorize.txt','')
     passwd_file = args.passwd_file
-    if args.passwd_file is None:
+    if passwd_file is None:
         passwd_file = os.path.join(base_dir, book_prefix+"_passwd.txt")
         if not os.path.exists(passwd_file):
             logging.warning("[未找到passwd文件，请使用-p指定]")
             parser.print_help()
             exit(1)
+    
+    info_file = args.info_file
+    if info_file is None:
+        info_file = os.path.join(base_dir, book_prefix+"_info.txt")
+        info = None
+        if os.path.exists(info_file):
+            with open(info_file) as f:
+                info = json.load(f)
+    headers = None
+    if info is not None:
+        headers = dict([i.strip().split(': ', 1) for i in info['headers'].split('\n') if i != ''])
+        headers['Referer'] = info['location']
 
     with open(authorize_file) as authorize:
         result = json.load(authorize)
@@ -114,7 +125,7 @@ if __name__ == "__main__":
         logging.warning("authorize_file未获取全文，请确保你的帐号拥有阅读全文的权限！\n(tip:获取到的页数比总页数少1页，实际上已经是全文了，可忽略！)")
 
     while True:
-        dowloadSplitFiles(SplitFiles, args.sleep)
+        dowloadSplitFiles(SplitFiles, args.sleep, headers=headers)
         # dowloadSplitFilesByLoop(SplitFiles)
         enc_dir = os.path.join(base_dir, book_prefix+'_enc')
         dec_dir = os.path.join(base_dir, book_prefix+'_dec')
