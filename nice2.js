@@ -47,6 +47,18 @@ function exportRaw(name, data) {
       fakeClick(save_link);
     } 
 
+function preprocess_author(authorObj) {
+    var re=/(\S+)(\?q.+)&fixedUrl/
+    for (var i=0,len=authorObj.Data.SplitFiles.length;i<len;i++){
+        var url = authorObj.Data.SplitFiles[i].Url;
+        var url_r = url.match(re);
+        if(url_r.length==3 && url_r[1].search("gateway.keledge.com/transfer")>=0){
+            authorObj.Data.SplitFiles[i].Url = "https://cip.keledge.com:50002/transfer/dcd/net/content/stream"+url_r[2];
+        }
+    }
+    return authorObj;
+}
+
 
 // var prefix=null;
 // var confirm_download=null;
@@ -77,7 +89,7 @@ var ui_is_init = false;
 
 // Hook
 var output_authorize = function(result){
-    authorObj = result;
+    authorObj = preprocess_author(result);
     if(confirm_download == true){
         layer.msg('get authorize!', function(){
             //关闭后的操作
