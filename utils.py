@@ -10,22 +10,13 @@ import shlex
 from datetime import datetime
 
 h = '''
-accept: application/json, text/plain, */*
 accept-encoding: gzip, deflate, br
-accept-language: en,zh-CN;q=0.9,zh;q=0.8,pt;q=0.7
-cache-control: no-cache
-origin: null
-pragma: no-cache
-referer: https://www.keledge.com
-sec-fetch-dest: empty
-sec-fetch-mode: cors
-sec-fetch-site: same-site
 user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36
 '''
 
-headers = dict([i.split(': ', 1) for i in h.split('\n') if i != ''])
+gheaders = dict([i.strip().split(': ', 1) for i in h.split('\n') if i != ''])
 
-def dowloadSplitFileUrl(d, obj, t=0, overwrite=0, ):
+def dowloadSplitFileUrl(d, obj, t=0, overwrite=0, headers=None):
     os.makedirs(d, exist_ok=True)
     
     page = obj.get('NumberOfPage')
@@ -39,6 +30,8 @@ def dowloadSplitFileUrl(d, obj, t=0, overwrite=0, ):
     if os.path.exists(name) and overwrite==0:
         return "已存在！{}".format(name)
     url = obj['Url']
+    if not headers:
+        headers = gheaders
     r = requests.get(url, headers=headers)
     if r.status_code >= 300:
         time.sleep(max(5, t))
@@ -60,7 +53,7 @@ def dowloadSplitFileUrl(d, obj, t=0, overwrite=0, ):
     time.sleep(max(random.randint(10,20), t))
     return "下载成功！{} http_status:{}".format(name, r.status_code)
 
-def Guess51zhyFull(SplitFiles, increment=64, t=0):
+def Guess51zhyFull(SplitFiles, increment=64, t=0, headers=None):
     left_page = SplitFiles[-1]['NumberOfPage']
     url = SplitFiles[-1]['Url']
     base_url = os.path.dirname(url)
@@ -71,9 +64,11 @@ def Guess51zhyFull(SplitFiles, increment=64, t=0):
     except Exception as e:
         print('error:{}'.format(e))
         return
+    if not headers:
+        headers = gheaders
     while True:
         right_page = left_page + increment
-        r = requests.get(template_url.format(right_page))
+        r = requests.get(template_url.format(right_page), headers=headers)
         time.sleep(max(5,t))
         print("try page: {}".format(template_url.format(right_page)))
         if r.status_code == 404:

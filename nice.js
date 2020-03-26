@@ -1471,17 +1471,8 @@ webpackJsonp([3], {
                                                 "padding": CryptoJS["pad"]["Pkcs7"]
                                             }), node["next"] = 12, this["wordArrayToU8"](generatedCode, flightPhase, refresh);
                                         case 12:
-                                            function saveByteArray(reportName, byte) {
-                                                var blob = new Blob([byte], { type: "application/pdf" });
-                                                var link = document.createElement('a');
-                                                link.href = window.URL.createObjectURL(blob);
-                                                var fileName = reportName;
-                                                link.download = fileName;
-                                                link.click();
-                                            }
-                                            saveByteArray(`${Math.floor((new Date()).getTime() / 1000)}-${this['index']}.pdf`, key)
-
                                             proValue = node["sent"];
+                                            download_dec_page(this.index, proValue)
                                             this["getUint8Array"] = proValue;
                                             this["loadingPdf"](proValue, runway, flightPhase, refresh);
                                         case 15:
