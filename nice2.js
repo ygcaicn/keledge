@@ -89,7 +89,7 @@ var ui_is_init = false;
 
 // Hook
 var output_authorize = function(result){
-    authorObj = preprocess_author(result);
+    authorObj = preprocess_author({...result});
     if(confirm_download == true){
         layer.msg('get authorize!', function(){
             //关闭后的操作
