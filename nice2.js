@@ -410,7 +410,7 @@ var t_d = setInterval(function(){
                 check_exec();
            },
            btn2: function(){
-                return false
+                // return false
                 download_in_browser();
                 return false
            }
