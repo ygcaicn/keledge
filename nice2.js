@@ -22,7 +22,13 @@ loadStyle("//www.layuicdn.com/layui/css/layui.css")
 loadStyle("https://cdn.bootcss.com/layer/1.8.5/skin/layer.min.css")
 loadJs("//www.layuicdn.com/layer/layer.js")
 
-
+// loadJs("https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.4.456/pdf.min.js")
+// loadJs("https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.4.456/pdf.worker.js")
+// loadJs("https://cdnjs.cloudflare.com/ajax/libs/pdfobject/2.1.1/pdfobject.min.js")
+var getBlobUrl = function (obj) {
+    var blob = new Blob([obj], { type: "application/pdf" });
+    return window.URL.createObjectURL(blob);
+};
 
 var saveByteArray = function (reportName, byte) {
     var blob = new Blob([byte], { type: "application/pdf" });
@@ -45,11 +51,11 @@ function exportRaw(name, data) {
       save_link.href = urlObject.createObjectURL(export_blob);
       save_link.download = name;
       fakeClick(save_link);
-    } 
+} 
 
 function heredoc(fn) {
-        return fn.toString().split('\n').slice(1,-1).join('\n') + '\n'
-    }
+    return fn.toString().split('\n').slice(1,-1).join('\n') + '\n'
+}
 
 function preprocess_author(authorObj) {
     var re=/(\S+)(\?q.+)&fixedUrl/;
@@ -235,7 +241,7 @@ function download_in_browser(){
                         ,offset: 't'
                         ,content: '<div style="padding: 10px;">浏览器内下载中...<br>翻页过快可能导致无法导出</div>'
                         ,btn: ['停止']
-                        ,closeBtn: 1
+                        ,closeBtn: 0
                         ,shade: 0 //不显示遮罩
                         ,btn1:function(){
                             stop_turn_page();
@@ -261,8 +267,7 @@ var ui_is_init = false;
 // Hook
 var output_authorize = function(result){
     var _authorObj = JSON.parse(JSON.stringify(result));
-    authorObj = preprocess_author(_authorObj);
-    // authorObj = _authorObj;
+    authorObj = _authorObj;
     if(confirm_download == true){
         layer.msg('get authorize!', function(){
             //关闭后的操作
