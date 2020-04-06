@@ -86,7 +86,22 @@ function export_info(name){
         Sec-Fetch-Mode: cors
         Sec-Fetch-Site: same-site
         User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36
-    */})
+    */});
+    infoObj.token = '';
+    layer.prompt({
+        formType: 0,
+        closeBtn: 0,
+        btn:["确定"],
+        value: '',
+        maxlength: 50,
+        area: 200,
+        title: 'Token：',
+    },
+    function(value, index, elem){
+        infoObj.token = value;
+        layer.close(index);
+    });
+
     exportRaw(name, JSON.stringify(infoObj, null, 4));
 }
 

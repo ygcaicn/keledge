@@ -12,12 +12,12 @@ from inputimeout import inputimeout, TimeoutOccurred
 FORMAT = '%(levelname)-4s: %(message)s'
 logging.basicConfig(level=logging.INFO, format=FORMAT)
 
-def dowloadSplitFiles(SplitFiles, sleep=0, headers=None):
+def dowloadSplitFiles(SplitFiles, sleep=0, headers=None, token=None):
     enc_dir = os.path.join(base_dir, book_prefix+'_enc')
     os.makedirs(enc_dir, exist_ok=True)
 
     with ThreadPoolExecutor(max_workers=5) as executor:
-        future_to_url = {executor.submit(dowloadSplitFileUrl, enc_dir, obj, sleep, headers): obj for obj in SplitFiles}
+        future_to_url = {executor.submit(dowloadSplitFileUrl, enc_dir, obj, sleep, headers, token): obj for obj in SplitFiles}
         for future in as_completed(future_to_url):
             obj = future_to_url[future]
             try:
@@ -96,9 +96,14 @@ if __name__ == "__main__":
             with open(info_file) as f:
                 info = json.load(f)
     headers = None
+    token = ''
     if info is not None:
         headers = dict([i.strip().split(': ', 1) for i in info['headers'].split('\n') if i != ''])
         headers['Referer'] = info['location']
+        token = info['token']
+    if token == '':
+        print("没有找到Token.")
+        exit(2)
 
     with open(authorize_file) as authorize:
         result = json.load(authorize)
@@ -111,6 +116,7 @@ if __name__ == "__main__":
             result['Data']['SplitFiles'].append({"NumberOfPage":i+1,"Url":u})
     
     SplitFiles = result['Data']['SplitFiles']
+
     if not result['Data'].get('NumberOfPages'):
         print("全书页数未知")
         result['Data']['NumberOfPages'] = len(SplitFiles)
@@ -125,7 +131,7 @@ if __name__ == "__main__":
         logging.warning("authorize_file未获取全文，请确保你的帐号拥有阅读全文的权限！\n(tip:获取到的页数比总页数少1页，实际上已经是全文了，可忽略！)")
 
     while True:
-        dowloadSplitFiles(SplitFiles, args.sleep, headers=headers)
+        dowloadSplitFiles(SplitFiles, args.sleep, headers=headers, token=token)
         # dowloadSplitFilesByLoop(SplitFiles)
         enc_dir = os.path.join(base_dir, book_prefix+'_enc')
         dec_dir = os.path.join(base_dir, book_prefix+'_dec')

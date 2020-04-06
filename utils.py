@@ -16,7 +16,7 @@ user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML,
 
 gheaders = dict([i.strip().split(': ', 1) for i in h.split('\n') if i != ''])
 
-def dowloadSplitFileUrl(d, obj, t=0, overwrite=0, headers=None):
+def dowloadSplitFileUrl(d, obj, t=0, overwrite=0, headers=None, token=None):
     os.makedirs(d, exist_ok=True)
     
     page = obj.get('NumberOfPage')
@@ -32,6 +32,8 @@ def dowloadSplitFileUrl(d, obj, t=0, overwrite=0, headers=None):
     url = obj['Url']
     if not headers:
         headers = gheaders
+    if token is not None:
+        url = url+"&Token={}".format(token)
     r = requests.get(url, headers=headers)
     if r.status_code >= 300:
         time.sleep(max(5, t))
@@ -113,3 +115,4 @@ def decSplitFile(p, i, o):
         if os.path.exists(o):
             os.remove(o)
     return r
+
