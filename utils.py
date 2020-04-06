@@ -34,6 +34,7 @@ def dowloadSplitFileUrl(d, obj, t=0, overwrite=0, headers=None, token=None):
         headers = gheaders
     if token is not None:
         url = url+"&Token={}".format(token)
+    # print(url, headers)
     r = requests.get(url, headers=headers)
     if r.status_code >= 300:
         time.sleep(max(5, t))

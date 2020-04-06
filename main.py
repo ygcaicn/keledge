@@ -17,7 +17,7 @@ def dowloadSplitFiles(SplitFiles, sleep=0, headers=None, token=None):
     os.makedirs(enc_dir, exist_ok=True)
 
     with ThreadPoolExecutor(max_workers=5) as executor:
-        future_to_url = {executor.submit(dowloadSplitFileUrl, enc_dir, obj, sleep, headers, token): obj for obj in SplitFiles}
+        future_to_url = {executor.submit(dowloadSplitFileUrl, enc_dir, obj, sleep, 0, headers, token): obj for obj in SplitFiles}
         for future in as_completed(future_to_url):
             obj = future_to_url[future]
             try:
@@ -100,7 +100,9 @@ if __name__ == "__main__":
     if info is not None:
         headers = dict([i.strip().split(': ', 1) for i in info['headers'].split('\n') if i != ''])
         headers['Referer'] = info['location']
+        headers.pop('Host')
         token = info['token']
+        print("token:{}".format(token))
     if token == '':
         print("没有找到Token.")
         exit(2)

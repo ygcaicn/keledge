@@ -99,10 +99,9 @@ function export_info(name){
     },
     function(value, index, elem){
         infoObj.token = value;
+        exportRaw(name, JSON.stringify(infoObj, null, 4));
         layer.close(index);
     });
-
-    exportRaw(name, JSON.stringify(infoObj, null, 4));
 }
 
 // 浏览器内直接下载
